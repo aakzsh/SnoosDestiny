@@ -5,38 +5,63 @@ const Leaderboard = (props: any) => {
     { username: "u/gamer1", correctAnswers: "6" },
     { username: "u/gamer1", correctAnswers: "6" },
     { username: "u/gamer1", correctAnswers: "6" },
-    { username: "u/gamer1", correctAnswers: "6" },
-    { username: "u/gamer1", correctAnswers: "6" },
   ];
 
-  const rankComponents = (username: string, correctAnswers: string) => {
+  const rankComponents = (
+    username: string,
+    correctAnswers: string,
+    index: string
+  ) => {
     return (
-      <hstack grow padding="small" backgroundColor="#464646" cornerRadius="small">
+      <vstack>
         <spacer size="small"></spacer>
-        <image
-          url="reddit-bg.png"
-          resizeMode="cover"
-          imageHeight="256px"
-          imageWidth="256px"
-          width="100px"
-          height="100px"
-        />
+        <hstack
+          padding="small"
+          backgroundColor="#464646"
+          cornerRadius="small"
+          width="100%"
+          height="40px"
+          alignment="center middle"
+        >
+          <spacer size="small"></spacer>
+          <hstack width="30%">
+          <text size="medium">{index}</text>
+          <spacer size="small"></spacer>
+          <zstack cornerRadius="full" alignment="center middle">
+            <image
+              url="reddit-bg.png"
+              resizeMode="cover"
+              imageHeight="24px"
+              imageWidth="24px"
+              width="24px"
+              height="24px"
+            />
+          </zstack>
+          <spacer size="small"></spacer>
+          <text size="medium" alignment="center middle">
+            {username}
+          </text>
+          </hstack>
+          <spacer size="large"></spacer>
+          <hstack width="50%">
+          <vstack alignment="center middle">
+            <text size="large" color="green" weight="bold">{correctAnswers}</text>
+            <text size="xsmall">Correct Answers</text>
+          </vstack>
+          </hstack>
+          <spacer size="large"></spacer>
+          <hstack width="10%">
+          <icon name="share-android"></icon>
+          </hstack>
+          <spacer size="small"></spacer>
+        </hstack>
         <spacer size="small"></spacer>
-        <text size="medium">{username}</text>
-        <spacer size="large"></spacer>
-        <vstack>
-            <text>{correctAnswers}</text>
-            <text>Correct Answers</text>
-        </vstack>
-        <spacer size="large"></spacer>
-        <icon name="share-ios"></icon>
-        <spacer size="small"></spacer>
-      </hstack>
+      </vstack>
     );
   };
   return (
     <zstack width="100%" height="100%" backgroundColor="#262322">
-      <vstack>
+      <vstack width="100%" height="100%">
         <hstack padding="medium">
           <icon
             name="back"
@@ -50,6 +75,7 @@ const Leaderboard = (props: any) => {
           </text>
         </hstack>
         <hstack alignment="center middle" width="100%">
+          <vstack>
           <text
             color="#FF8232"
             weight="bold"
@@ -58,10 +84,26 @@ const Leaderboard = (props: any) => {
           >
             Are you at the top?
           </text>
+          <text
+            color="#FF823280"
+            size="small"
+            weight="regular"
+            alignment="middle center"
+            width="100%"
+          >
+           Your Rank: 45 | Your Correct Answers: 10
+          </text>
+          </vstack>
         </hstack>
-        {
-            rankComponents("hehe", "5")
-        }
+        <vstack width="100%" height="100%" padding="medium">
+          {rank.map(function (user, index) {
+            return rankComponents(
+              user.username,
+              user.correctAnswers,
+              (index + 1).toString()
+            );
+          })}
+        </vstack>
       </vstack>
     </zstack>
   );
