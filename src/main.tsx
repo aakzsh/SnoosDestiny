@@ -1,79 +1,59 @@
-import { Devvit, useState, useAsync } from "@devvit/public-api";
-import axios from "axios";
+import { Devvit, useState } from '@devvit/public-api';
 
-Devvit.configure({http: true})
+Devvit.configure({
+  http: true,
+});
+
+Devvit.addSettings([
+  {
+    name: 'open-ai-api-key',
+    label: 'Open AI API key',
+    type: 'string',
+    isSecret: true,
+    scope: 'app',
+  },
+]);
+
+async function fetchResponse(context: Devvit.Context): Promise<string> {
+  try {
+    // const apiKey = "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"
+
+    const res = await fetch('https://jsonplaceholder.typicode.com/todos/1', {
+      headers: {
+        'Content-Type': 'application/json',
+        // Authorization: `Bearer ${apiKey}`,
+      },
+      method: 'GET',
+    });
+
+    const json = await res.json();
+
+    return json?.title?.length > 0 ? json?.title : 'No response';
+  } catch (e: any) {
+    console.log('Fetch error ', e);
+    return e.toString();
+  }
+}
+
 Devvit.addCustomPostType({
-  name: "Say Hello",
-  render: () => {
-    const [counter, setCounter] = useState(0);
-    const [response, setResponse] = useState("hello");
+  name: 'Devvit - Ask GPT',
+  render: (context) => {
+    const [answer, setAnswer] = useState<string>('');
 
+    async function onPress() {
+      const response = await fetchResponse(context);
+      setAnswer(response || 'No Response');
+    }
 
-    // const height = height
     return (
-      <zstack width="100%" height="100%">
-        <image
-          url="reddit-bg.png"
-          resizeMode="cover"
-          imageHeight="256px"
-          imageWidth="256px"
-          width="100%"
-          height="100%"
-        />
-        <vstack padding="small">
-            <text size="xxlarge" weight="bold" color="#262322">
-              {"Snoo's Destiny"}
-            </text>
-          </vstack>
-          <vstack alignment="middle end" height="100%" width="100%" padding="medium">
-            <button textColor="#FFF6EC" appearance="success" size="small">Play Now</button>
-            <spacer size="medium" />
-            <button textColor="#FFF6EC" appearance="media" size="small">How to play</button>
-            <spacer size="medium" />
-            <button textColor="#FFF6EC" appearance="media" size="small">Settings</button>
-          </vstack>
-          <hstack alignment="bottom center" height="100%" width="100%" padding="medium">
-            <button textColor="#FFF6EC" appearance="media" size="small" onPress={()=>setCounter(counter+1)}>Start</button>
-            <spacer size="medium" />
-            <button textColor="#FFF6EC" appearance="media" size="small">Chapters</button>
-            <spacer size="medium" />
-            <button textColor="#FFF6EC" appearance="media" size="small">Progress</button>
-          </hstack>
-          <text>{counter}</text>
-        {/* <vstack width="100%" height="100%"> */}
-          
-        
-          
-          
-        {/* </vstack> */}
-      </zstack>
-      // <vstack>
-      //   <vstack>
-      //   <image
-      //       // width={"100%"}
-      //       imageHeight={500}
-      //       imageWidth={122 + counter - 7}
-      //       resizeMode='fill'
-      //       url='reddit-bg.png'
-      //     />
-      //   </vstack>
-      //   <vstack alignment='center middle' height='100%' gap='large'>
-      //     <text size='xxlarge' weight='bold'>
-      //       Hello! 👋
-      //     </text>
-      //     <button
-      //       appearance='primary'
-      //       onPress={() => setCounter(counter => counter + 1)}
-      //     >
-      //       Click me!
-      //     </button>
-      //     {counter ? (
-      //       <text>{`You clicked ${counter} time(s)!`}</text>
-      //     ) : (
-      //       <text>&nbsp;</text>
-      //     )}
-      //   </vstack>
-      // </vstack>
+      <blocks height="tall">
+        <vstack alignment="center middle" height="100%" gap="large">
+          <button appearance="primary" onPress={onPress}>
+            {'Ask GPT'}
+          </button>
+          <text wrap>{answer}</text>
+        </vstack>
+      </blocks>
     );
   },
 });
