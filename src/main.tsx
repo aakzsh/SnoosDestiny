@@ -1,26 +1,62 @@
-import { Devvit, useState, useAsync, Context, getSubredditLeaderboard, getSubredditInfoByName, getSubredditInfoById } from "@devvit/public-api";
+import { Devvit, useState, useAsync, Context, getSubredditLeaderboard, getSubredditInfoByName, getSubredditInfoById, useForm } from "@devvit/public-api";
 import Home from "./Components/Home.js";
 import Leaderboard from "./Components/Leaderboard.js";
 import Rules from "./Components/Rules.js";
 import Chapters from "./Components/Chapters.js";
+import Game from "./Components/Game.js";
+import generateStory from "./Service/apiService.js";
 
 Devvit.configure({ http: true, realtime: true, redditAPI: true });
+
+
 Devvit.addCustomPostType({
   name: "Say Hello",
-  render: () => {
+  render: (context) => {
+
+    const myForm = useForm(
+      {
+        fields: [
+          {
+            type: 'string',
+            name: 'name',
+            label: 'Type Here',
+          },
+        ],
+      },
+      (values) => {
+        // onSubmit handler
+        console.log(values.name)
+        if(values.name!==todaysQuestion.answer){
+          context.ui.showToast("Wrong answer! Please try again")
+        }
+        else{
+          // success logic here 
+          context.ui.showToast("Correct answer!!!")
+        }
+        
+        // setName(values.name);
+      }
+    );
+
+    const submitAnswer = () =>{
+      context.ui.showForm(myForm);
+    } 
+
     const [screen, setScreen] = useState("home");
     const [leaderboard, setLeaderboard] = useState("null")
 
     const renderContent = () => {
       switch (screen) {
         case "home":
-          return <Home />;
+          return <Home  changeScreen={changeScreen} setQuestion={setQuestion}/>;
         case "leaderboard":
           return <Leaderboard navigateback={navigateback}/>
         case "rules":
             return <Rules navigateback={navigateback}/>
         case "chapters":
             return <Chapters navigateback={navigateback}/>
+        case "game":
+              return <Game navigateback={navigateback}  changeScreen={changeScreen} question={todaysQuestion} submitAnswer={submitAnswer}/>
         default:
           return <text>hello</text>;
       }
@@ -39,6 +75,12 @@ Devvit.addCustomPostType({
       const leaderboard = await getSubredditInfoById("t5_2qh1o", {})
       setLeaderboard(leaderboard.toString())
       console.log(leaderboard)
+  }
+
+  const [todaysQuestion, setTodaysQuestion] = useState({"answer": ""})
+  const setQuestion = async () =>{
+    const res = await generateStory();
+    setTodaysQuestion(res)
   }
     return (
       <zstack height="100%" width="100%">

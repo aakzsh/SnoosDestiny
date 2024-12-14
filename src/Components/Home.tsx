@@ -1,6 +1,6 @@
 import { Devvit } from "@devvit/public-api";
 
-const Home = () => {
+const Home = (props: any) => {
   return (
     <zstack width="100%" height="100%">
       <image
@@ -42,7 +42,10 @@ const Home = () => {
           </text>
         </vstack>
         <vstack padding="small">
-          <button textColor="#FFF6EC" appearance="success" size="medium">
+          <button textColor="#FFF6EC" appearance="success" size="medium" onPress={async ()=>{
+           await  props.setQuestion()
+            props.changeScreen('game')
+          }}>
             Play Now
           </button>
         </vstack>
