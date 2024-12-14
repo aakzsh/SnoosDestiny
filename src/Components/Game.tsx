@@ -1,14 +1,19 @@
-import { Devvit, useState } from "@devvit/public-api";
+import { Devvit, useInterval, useState } from "@devvit/public-api";
 
 const Game = (props: any) => {
 
     const [question, setQuestion] = useState("Snoo found an old diary in the library of the mysterious stories sub-forum. On its pages, it read: ‘Gold and silver do not affect me, but I am valuable to those who seek answers. I am everywhere, but I am often invisible.' Snoo frowned, mulling over the words as the sound of commentary echoed through the room.’")
-    const [timePassed, setTimePassed] = useState(0);
     const [hintText, setHintText] = useState("")
     const [hint1Rev, setHint1Rev] = useState(false);
     const [hint2Rev, setHint2Rev] = useState(false);
     console.log(props.question)
     
+    const [elapsedTime, setElapsedTime] = useState(0)
+
+    const tick = () => setElapsedTime(prev => prev + 1)
+
+    useInterval(tick, 1000).start()
+
   return (
     <zstack width="100%" height="100%" backgroundColor="#262322">
     <image
@@ -38,7 +43,7 @@ const Game = (props: any) => {
           </zstack>
           <spacer size="medium"></spacer>
           <vstack width="40%">
-            <text size="xxlarge" weight="bold" alignment="center middle">TIME ELAPSED: {timePassed}</text>
+            <text size="xxlarge" weight="bold" alignment="center middle">TIME ELAPSED: {elapsedTime}s</text>
             <spacer size="medium"></spacer>
             <button size="large" appearance="success" onPress={props.submitAnswer}>
                 ANSWER

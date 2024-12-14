@@ -5,35 +5,35 @@
 //   }
 
 const generateStory = async () => {
-    const apiKey = "API_KEY"
-  const response = await fetch(
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key="+apiKey,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        contents: [
-          {
-            parts: [
-              {
-                text: 'Create a very short simple and predictable random story under 60 words about a character Snoo and relate with life like a riddle. At the end of the story, add a small question that readers need to guess, the answer would be a single word. Provide the correct answer and include two helpful hints. Format the response as JSON:\n{\n  "question": "The question?",\n "story": "a background story",\n  "answer": "The correct answer",\n  "hints": ["Hint 1", "Hint 2"]\n}',
-              },
-            ],
-          },
-        ],
-      }),
-    }
-  );
-
-  let parsedStory;
-
+    let parsedStory;
   // Try parsing the response, fallback to a hardcoded example in case of errors
   try {
 
     // comment the below line in live release, uncomment to avoid unnecessary API HITS
     throw new Error('Forced error for testing');
+    const apiKey = "API_KEY"
+    const response = await fetch(
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key="+apiKey,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                {
+                  text: 'Create a very short simple and predictable random story under 60 words about a character Snoo and relate with life like a riddle. At the end of the story, add a small question that readers need to guess, the answer would be a single word. Provide the correct answer and include two helpful hints. Format the response as JSON:\n{\n  "question": "The question?",\n "story": "a background story",\n  "answer": "The correct answer",\n  "hints": ["Hint 1", "Hint 2"]\n}',
+                },
+              ],
+            },
+          ],
+        }),
+      }
+    );
+  
+    
     const responseData = await response.json();
 
     // Extract the text containing the JSON story from the response
