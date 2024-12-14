@@ -13,7 +13,7 @@ const Home = () => {
       />
       <vstack padding="small">
         <text size="xxlarge" weight="bold" color="#262322">
-          {"Snoo's Destiny"}
+          {"Snoo's Destiny: Chapter 1"}
         </text>
       </vstack>
       <vstack
