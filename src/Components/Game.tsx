@@ -6,7 +6,7 @@ const Game = (props: any) => {
     const [hintText, setHintText] = useState("")
     const [hint1Rev, setHint1Rev] = useState(false);
     const [hint2Rev, setHint2Rev] = useState(false);
-    console.log(props.question)
+    // console.log(props.question)
     
     const [elapsedTime, setElapsedTime] = useState(0)
 

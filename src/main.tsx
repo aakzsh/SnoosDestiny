@@ -5,13 +5,16 @@ import Rules from "./Components/Rules.js";
 import Chapters from "./Components/Chapters.js";
 import Game from "./Components/Game.js";
 import generateStory from "./Service/apiService.js";
+import {redisService} from "./Service/redisService.js";
 
-Devvit.configure({ http: true, realtime: true, redditAPI: true });
+Devvit.configure({ http: true, realtime: true, redditAPI: true, redis: true });
 
 
 Devvit.addCustomPostType({
   name: "Say Hello",
   render: (context) => {
+
+    const service = new redisService(context);
 
     const myForm = useForm(
       {
@@ -79,8 +82,22 @@ Devvit.addCustomPostType({
 
   const [todaysQuestion, setTodaysQuestion] = useState({"answer": ""})
   const setQuestion = async () =>{
-    const res = await generateStory();
-    setTodaysQuestion(res)
+    // check if story present for today
+    const todaysChapter = await service.getTodaysChapter();
+    let chapter;
+    if (todaysChapter)
+    {
+      chapter = todaysChapter;
+      console.log("chapter present")
+    }
+    else
+    {
+      chapter = await generateStory();
+      console.log("chapter not present, new generated")
+
+      service.saveChapter(chapter)
+    }
+    setTodaysQuestion(chapter)
   }
     return (
       <zstack height="100%" width="100%">
