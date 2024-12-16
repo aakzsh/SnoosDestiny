@@ -36,6 +36,9 @@ const Game = (props: any) => {
           <text size="large" color="#E3E1DE" weight="bold">
             Chapter 1: {props.question.question}
           </text>
+          <text>
+            {props.question.username}
+          </text>
         </hstack>
         <hstack width="100%" padding="medium" alignment="center middle">
           <zstack width="60%" height="100%" padding="medium" cornerRadius="small" backgroundColor="#DCDCDC">
@@ -45,7 +48,10 @@ const Game = (props: any) => {
           <vstack width="40%">
             <text size="xxlarge" weight="bold" alignment="center middle">TIME ELAPSED: {elapsedTime}s</text>
             <spacer size="medium"></spacer>
-            <button size="large" appearance="success" onPress={props.submitAnswer}>
+            <button size="large" appearance="success" onPress={()=>{
+              props.submitAnswer()
+              props.setTimetaken(elapsedTime.toString())
+            }}>
                 ANSWER
             </button>
             <spacer size="medium"></spacer>

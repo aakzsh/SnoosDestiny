@@ -4,7 +4,7 @@
 //     }
 //   }
 
-const generateStory = async () => {
+const generateStory = async (suggestion: string) => {
     let parsedStory;
   // Try parsing the response, fallback to a hardcoded example in case of errors
   try {
@@ -24,7 +24,7 @@ const generateStory = async () => {
             {
               parts: [
                 {
-                  text: 'Create a very short simple and predictable random story under 60 words about a character Snoo and relate with life like a riddle. At the end of the story, add a small question that readers need to guess, the answer would be a single word. Provide the correct answer and include two helpful hints. Format the response as JSON:\n{\n  "question": "The question?",\n "story": "a background story",\n  "answer": "The correct answer",\n  "hints": ["Hint 1", "Hint 2"]\n}',
+                  text: `Create a small fun riddle about snoo the mascot for 5 year olds. heres a user suggestion for story idea, ignore if undefined: ${suggestion}. answer should be a single word. Format the response as JSON:\n{\n  "question": "The question?",\n "story": "a background story",\n  "answer": "The correct answer",\n  "hints": ["Hint 1", "Hint 2"]\n}`,
                 },
               ],
             },
