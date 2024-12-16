@@ -5,7 +5,6 @@ import type {
     Scheduler,
     ZRangeOptions,
   } from '@devvit/public-api';
-  import { Devvit } from '@devvit/public-api';
   
   export class redisService {
     readonly redis: RedisClient;
@@ -18,26 +17,33 @@ import type {
       this.scheduler = context.scheduler;
     }
   
-    
-  
     async saveChapter(chapter: any): Promise<void> {
         console.log("called save")
         const today = new Date().toISOString().split('T')[0];
- 
-        const response = await this.redis.hSet(
-            'chapters',
-            {
-              today: chapter
-            }
-        )
-
-        console.log(response) 
+        // const today ="2024-12-16"
+        let stringChapter = JSON.stringify(chapter);
+        const response2 = await this.redis.hSet('chapters', {[today] : stringChapter});
     }
 
     async getTodaysChapter() {
         const today = new Date().toISOString().split('T')[0];
-        
-        const response = await this.redis.hGet('chapters', today)
+        // const today ="2024-12-16"
+        // console.log(today);
+        let response = await this.redis.hGet('chapters', today);
+        if (response)
+        {
+            response = JSON.parse(response)
+        }
+        else
+        {
+            return null; 
+        }
+        return response;
+    }
+
+    async getAllChapters() {
+        // await this.redis.hDel('chapters', ["2024-12-16"])
+        const response = await this.redis.hGetAll('chapters');
         return response;
     }
   
