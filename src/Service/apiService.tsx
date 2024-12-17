@@ -24,7 +24,7 @@ const generateStory = async (suggestion: string) => {
             {
               parts: [
                 {
-                  text: `Create a small fun riddle about snoo the mascot for 5 year olds. heres a user suggestion for story idea, ignore if undefined: ${suggestion}. answer should be a single word. Format the response as JSON:\n{\n  "question": "The question?",\n "story": "a background story",\n  "answer": "The correct answer",\n  "hints": ["Hint 1", "Hint 2"]\n}`,
+                  text: `Create a fun riddle for 5-year-olds featuring a character named Snoo. Use the provided story idea (${suggestion}) if defined. The question should be a single line, the story 2-3 lines, and the answer a single word. Format the response as JSON:\n{\n "question": "The question?",\n "story": "A background story",\n "answer": "The correct answer",\n "hints": ["Hint 1", "Hint 2"]\n}`,
                 },
               ],
             },

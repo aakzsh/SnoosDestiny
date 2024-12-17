@@ -93,23 +93,50 @@ const Chapters = (props: any, context: Context) => {
 
   return (
     <zstack width="100%" height="100%">
+      <image
+        url="game-bg.png"
+        resizeMode="cover"
+        imageHeight="256px"
+        imageWidth="256px"
+        width="100%"
+        height="100%"
+      />
       <vstack padding="small">
-        <text size="xxlarge" weight="bold" color="white">
-          {"Chapters"}
-        </text>
+      <hstack padding="medium">
+          <icon
+            name="back"
+            color="#E3E1DE"
+            size="medium"
+            onPress={() => props.navigateBack('home')}
+          ></icon>
+          <spacer size="medium"></spacer>
+          <vstack>
+          <text size="large" color="#E3E1DE" weight="bold">
+            Chapters
+          </text>
+          </vstack>
+        </hstack>
 
         {currentChapter ? (
           <vstack width="100%" height="100%" padding="medium">
-            <text size="large" weight="bold" alignment="center middle">
+            <text size="medium" weight="bold" alignment="start middle">
               {`Date: ${currentChapterKey}`}
             </text>
-            <text size="medium" alignment="center middle">
+
+
+{/* ========== */}
+{/* =========== */}
+
+
+
+            <text size="xsmall" alignment="start middle" wrap={true}>
               {currentChapter.story}
             </text>
-
+            <spacer size="medium"></spacer>
             <text size="medium" weight="bold" color="white">
               {"Question: "}{currentChapter.question}
             </text>
+            <spacer size="small"></spacer>
             <text size="small" color="gray">
               {"Hints: "}{currentChapter.hints.join(", ")}
             </text>
@@ -118,12 +145,17 @@ const Chapters = (props: any, context: Context) => {
               <button
                 onPress={showPrevious}
                 disabled={currentIndex === 0}
+                size="small"
+                appearance="caution"
               >
                 Previous
               </button>
+              <spacer size="medium"></spacer>
               <button
                 onPress={showNext}
                 disabled={currentIndex === chapterKeys.length - 1}
+                size="small"
+                appearance="success"
               >
                 Next
               </button>

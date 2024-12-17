@@ -75,6 +75,14 @@ const Leaderboard = (props: any, context: any) => {
 
   return (
     <zstack width="100%" height="100%" backgroundColor="#262322">
+      <image
+        url="game-bg.png"
+        resizeMode="cover"
+        imageHeight="256px"
+        imageWidth="256px"
+        width="100%"
+        height="100%"
+      />
       <vstack width="100%" height="100%">
         <hstack padding="medium">
           <icon
@@ -98,7 +106,7 @@ const Leaderboard = (props: any, context: any) => {
             >
               Are you at the top?
             </text>
-            <text
+            {/* <text
               color="#FF823280"
               size="small"
               weight="regular"
@@ -106,7 +114,7 @@ const Leaderboard = (props: any, context: any) => {
               width="100%"
             >
               Your Rank: -- | Your Correct Answers: --
-            </text>
+            </text> */}
           </vstack>
         </hstack>
         <vstack width="100%" height="100%" padding="medium">

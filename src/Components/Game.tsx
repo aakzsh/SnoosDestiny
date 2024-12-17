@@ -33,12 +33,15 @@ const Game = (props: any) => {
             onPress={() => props.changeScreen('home')}
           ></icon>
           <spacer size="medium"></spacer>
+          <vstack>
           <text size="large" color="#E3E1DE" weight="bold">
             Chapter 1: {props.question.question}
           </text>
           <text>
-            {props.question.username}
+          {props.question.username?`topic suggested by ${props.question.username}`:""}
+            {/* topic suggested by {props.question.username} */}
           </text>
+          </vstack>
         </hstack>
         <hstack width="100%" padding="medium" alignment="center middle">
           <zstack width="60%" height="100%" padding="medium" cornerRadius="small" backgroundColor="#DCDCDC">

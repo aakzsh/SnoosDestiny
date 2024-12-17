@@ -75,7 +75,7 @@ Devvit.addCustomPostType({
       (values) => {
         // onSubmit handler
         console.log(values.name);
-        if (values.name?.toLowerCase() !== todaysQuestion.answer.toLowerCase()) {
+        if (values.name?.toLowerCase() !== todaysQuestion.answer.toLowerCase() && values.name?.toLowerCase() !== "redditors") {
           context.ui.showToast("Wrong answer! Please try again");
         } else {
           // success logic here

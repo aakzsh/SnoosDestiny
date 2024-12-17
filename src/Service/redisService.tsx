@@ -20,7 +20,7 @@ import type {
     async saveChapter(chapter: any, username: string): Promise<void> {
         console.log("called save")
         const today = new Date().toISOString().split('T')[0];
-        // const today ="2024-12-11"
+        // const today ="2024-12-16"
         chapter["username"] = username
         let stringChapter = JSON.stringify(chapter);
         const response2 = await this.redis.hSet('chapters', {[today] : stringChapter});
@@ -28,7 +28,7 @@ import type {
 
     async getTodaysChapter() {
         const today = new Date().toISOString().split('T')[0];
-        // const today ="2024-12-11"
+        // const today ="2024-12-16"
         // console.log(today);
         let response = await this.redis.hGet('chapters', today);
         if (response)
