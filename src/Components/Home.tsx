@@ -132,7 +132,7 @@ const Home = (props: any, context: Context) => {
                 limit: 10,
                 pageSize: 10
               }).all();
-              console.log("comments: ", comments[0].createdAt)
+              // console.log("comments: ", comments[0].createdAt)
               const c = await getLuckyComment(comments);
               console.log(c?.username, c?.commentAfterFirstStop)
 

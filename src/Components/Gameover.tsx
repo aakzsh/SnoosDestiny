@@ -1,41 +1,19 @@
-import { Context, Devvit } from "@devvit/public-api";
+import { Context, Devvit, useAsync } from "@devvit/public-api";
+import { redisService } from "../Service/redisService.js";
 
 const GameOver = (props: any, context: Context) => {
-  const playerScore = 10; // Example score
-//   let com = new Comment();
-//   async function onGuessHandler(guess: string, createComment: boolean): Promise<void> {
-//     if (!props.postData || !props.username) {
-//       guess,
-//       createComment,
-//     });
-//   }
-
-
-
-// const firstSolveComment = Devvit.addSchedulerJob({
-//   name: 'SOLVER_COMMENT',
-//   onRun: async (
-//     event: {
-//       data: {
-//         postId: string;
-//         username: string;
-//       };
-//     },
-//     context
-//   ) => {
-//     if (event.data) {
-//       try {
-//         await context.reddit.submitComment({
-//           id: event.data.postId,
-//           text: `u/${event.data.username} is the first to solve this drawing!`,
-//         });
-//       } catch (error) {
-//         console.error('Failed to submit comment:', error);
-//       }
-//     }
-//   },
-// });
-
+  const playerScore = 10; // Example score for other UI purposes
+  const service = new redisService(context);
+  
+  // Use useAsync to handle saving/incrementing the score
+  const { loading: savingScore, error: saveError } = useAsync(async () => {
+    const user = await context.reddit.getCurrentUser()
+    if (user)
+    {
+      service.saveOrUpdateScore(user?.username)
+    }  
+    return ""
+});
 
   return (
     <zstack width="100%" height="100%" backgroundColor="#262322">
@@ -68,21 +46,30 @@ const GameOver = (props: any, context: Context) => {
           <vstack>
             <spacer size="medium"></spacer>
             <text size="medium" color="#E3E1DE">
-                Thanks for playing, come again tomorrow!
-              </text>
+              Thanks for playing, come again tomorrow!
+            </text>
+            <spacer size="medium"></spacer>
+
+            {/* Display score saving state */}
+            {savingScore ? (
+              <text color="#FF8232">Saving your score...</text>
+            ) : saveError ? (
+              <text color="#FF3232">Error saving score. Try again later.</text>
+            ) : (
+              <text color="#32FF32">Score saved successfully!</text>
+            )}
 
             <spacer size="medium"></spacer>
-            <button onPress={
-                // ()=>console.log("hehe")
-                async ()=>{
+            <button
+              onPress={async () => {
                 await props.submitComment();
-            }
-            
-            
-            }>Create Comment</button>
+              }}
+            >
+              Create Comment
+            </button>
             <spacer size="medium"></spacer>
             <button onPress={props.navigateHome} appearance="success">
-            Go to Home
+              Go to Home
             </button>
             <spacer size="large"></spacer>
           </vstack>

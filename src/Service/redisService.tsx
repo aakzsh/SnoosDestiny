@@ -47,5 +47,19 @@ import type {
         const response = await this.redis.hGetAll('chapters');
         return response;
     }
+
+    async saveOrUpdateScore(username: string): Promise<void> {
+        const currentScore = await this.redis.hGet("scores", username);
+        if (currentScore) {
+          const score = parseInt(currentScore) + 1;
+          await this.redis.hSet("scores", {[username]: score.toString()});
+        } else {
+          await this.redis.hSet("scores", { [username]: "1" });
+        }
+      }
+
+      async getAllScores(): Promise<{ [key: string]: string }> {
+        return await this.redis.hGetAll("scores");
+      }
   
 }
